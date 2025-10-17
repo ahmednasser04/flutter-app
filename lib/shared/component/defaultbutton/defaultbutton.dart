@@ -9,6 +9,10 @@ class DefaultButton extends StatelessWidget {
     required this.onPressed,
     required this.buttonText,
     super.key,
+    this.buttonTextSize,
+    this.buttonTextWeight,
+    this.buttonTextColor,
+    this.boderColor,
   });
   void Function()? onPressed;
   String buttonText;
@@ -19,6 +23,7 @@ class DefaultButton extends StatelessWidget {
   double? buttonTextSize;
   FontWeight? buttonTextWeight;
   Color? buttonTextColor;
+  Color? boderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class DefaultButton extends StatelessWidget {
           ]),
           border: BoxBorder.all(
             width: 1,
-            color: Color.fromRGBO(255, 255, 255, .5)
+            color: boderColor??Color.fromRGBO(255, 255, 255, .5)
             
           )
     

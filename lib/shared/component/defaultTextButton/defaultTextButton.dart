@@ -14,10 +14,11 @@ class DefaultTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
+      
       child: Text(
         textButtonTitle,
         style: TextStyle(fontWeight: FontWeight.w600, 
-        color: textButtonColor =Color.fromRGBO(1, 52, 169, 1)),
+        color: textButtonColor ??Color.fromRGBO(1, 52, 169, 1)),
       ),
     );
   }

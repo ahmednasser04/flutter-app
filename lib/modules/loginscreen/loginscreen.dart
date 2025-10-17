@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care_project/main.dart';
 import 'package:health_care_project/shared/component/defaultTextButton/defaultTextButton.dart';
 import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
@@ -351,18 +352,94 @@ class _LoginscreenState extends State<Loginscreen> {
                       Row(
                         children: [
                           DefaultTextButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                 isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                        ),
+                                        color: Colors.white,
+                                      ),
+                                      height: 327,
+                                      padding: EdgeInsets.all(20),
+                                      child: Center(
+                                        child: Column(
+                                          
+                                          
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                  Container(
+                                                    height: 5,
+                                                    width: 50,
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromRGBO(17, 24, 39, 1),
+                                                      borderRadius: BorderRadius.circular(10)
+                                                    ),
+                                                  ),
+                                            
+                                                
+                                              
+                                            ],),
+                                            SizedBox(height: 15,),
+                                          Text("اعادة تعيين كلمة السر",
+                                              style: TextStyle(
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black
+                                              )),
+                                          SizedBox(height: 20),
+                                          Text( 'البريد الالكتروني او رقم الهاتف',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color.fromRGBO(108, 114, 120, 1)
+                                                
+                                              )),
+                                          Defaulttextformfield(
+                                          
+                                          ),
+                                          SizedBox(height: 20),
+                                          DefaultButton(
+                                            onPressed: () {},
+                                            buttonText: 'ارسال رابط تغيير كلمة السر',
+                                            
+                                          ),
+                                          SizedBox(height: 20),
+                                          DefaultButton(onPressed: (){}, buttonText: 'إلغاء',
+                                          backgroundColor: Colors.white,
+                                          foregroundColor: Colors.black,
+                                          boderColor: Colors.black)
+                                        ],),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                             textButtonTitle: 'نسيت كلمة السر ؟',
                           ),
                           Spacer(),
                           Text('تذكر البيانات'),
                           Checkbox(
                             checkColor: Colors.white,
-                          activeColor: Colors.blue,
+                            activeColor: Colors.blue,
                             value: checkboxValue,
                             onChanged: (value) {
                               setState(() {
-                              checkboxValue = !checkboxValue;
-
+                                checkboxValue = !checkboxValue;
                               });
                             },
                           ),

@@ -48,7 +48,7 @@ Function(String)? onFieldSubmitted;
           borderSide: BorderSide(
             
             color:Color.fromRGBO(237, 241, 243, 1) ,
-            width: 1,),
+            width: 2,),
           borderRadius: BorderRadius.circular(10)
         ),
         
