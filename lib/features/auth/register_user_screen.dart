@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_form_field/phone_form_field.dart';
-
 import '../../core/app_colors.dart';
-import '../../shared/component/defaultTextButton/defaultTextButton.dart';
 import '../../shared/component/defaultTextFormField/defaultTextFormField.dart';
 import '../../shared/component/defaultbutton/defaultbutton.dart';
 
@@ -17,6 +15,7 @@ class RegisterUserScreen extends StatefulWidget {
 
 class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool isDoctor = false;
+  bool isSubmitted = false;
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -24,9 +23,20 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+  TextEditingController();
+
+  bool obscurePassword = true;
+  bool obscureConfirmPassword = true;
 
   String fullPhoneNumber = '';
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
+  bool isPasswordMatched = true;
+  bool hasUpperLower = false;
+  bool hasNumber = false;
+  bool hasSymbol = false;
+  bool hasMinLength = false;
 
   Future<void> _pickDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -56,6 +66,26 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     );
   }
 
+  void _validateEmail(String value) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    setState(() {
+      isEmailValid = emailRegex.hasMatch(value);
+    });
+  }
+
+  void _validatePassword(String value) {
+    setState(() {
+      hasUpperLower = value.contains(RegExp(r'(?=.*[a-z])(?=.*[A-Z])'));
+      hasNumber = value.contains(RegExp(r'[0-9]'));
+      hasSymbol = value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>/]'));
+      hasMinLength = value.length >= 8;
+      isPasswordValid =
+          hasUpperLower && hasNumber && hasSymbol && hasMinLength;
+      isPasswordMatched =
+          passwordController.text == confirmPasswordController.text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +105,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     child: Defaulttextformfield(
                       controller: firstNameController,
                       hintText: "الاسم الاول",
+                      borderColor: (isSubmitted && firstNameController.text.isEmpty)
+                          ? Colors.redAccent
+                          : null,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -82,45 +115,58 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     child: Defaulttextformfield(
                       controller: lastNameController,
                       hintText: "الاسم الأخير",
+                      borderColor: (isSubmitted && lastNameController.text.isEmpty)
+                          ? Colors.redAccent
+                          : null,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height:16),
+              const SizedBox(height: 16),
               buildLabel("البريد الإلكتروني"),
               Defaulttextformfield(
                 controller: emailController,
                 hintText: "example@email.com",
-                suffixIcon: const Icon(Icons.check_circle,color:AppColors.green),
+                onChanged: _validateEmail,
+                suffixIcon: Icon(
+                  isEmailValid ? Icons.check_circle : Icons.cancel,
+                  color: isEmailValid ? AppColors.green : Colors.redAccent,
+                ),
+                borderColor: (isSubmitted && !isEmailValid)
+                    ? Colors.redAccent
+                    : null,
               ),
-              const SizedBox(height:16),
+              const SizedBox(height: 16),
               buildLabel("رقم الهاتف"),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade400),
+                  border: Border.all(
+                    color: (isSubmitted && fullPhoneNumber.isEmpty)
+                        ? Colors.redAccent
+                        : Colors.grey.shade400,
+                  ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: PhoneFormField(
-                  countrySelectorNavigator: const CountrySelectorNavigator.modalBottomSheet(),
+                  countrySelectorNavigator:
+                  const CountrySelectorNavigator.modalBottomSheet(),
                   decoration: InputDecoration(
                     hintText: '0123456789',
-                    border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 10),
                   ),
-                  countryButtonStyle: const CountryButtonStyle(
-                    showFlag: true,
-                  ),
+                  countryButtonStyle:
+                  const CountryButtonStyle(showFlag: true),
                   onChanged: (phoneNumber) {
                     if (phoneNumber != null) {
                       fullPhoneNumber = phoneNumber.international;
-                      print("Full Phone Number: $fullPhoneNumber");
                     }
                   },
                 ),
               ),
-              const SizedBox(height:16),
+              const SizedBox(height: 16),
               buildLabel("تاريخ الميلاد"),
               GestureDetector(
                 onTap: () => _pickDate(context),
@@ -128,47 +174,148 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   child: Defaulttextformfield(
                     controller: birthDateController,
                     hintText: "اختر تاريخ ميلادك",
-                    suffixIcon: const Icon(Icons.calendar_today_rounded,color:Colors.grey,),
+                    suffixIcon: const Icon(Icons.calendar_today_rounded,
+                        color: Colors.grey),
+                    borderColor: (isSubmitted &&
+                        birthDateController.text.isEmpty)
+                        ? Colors.redAccent
+                        : null,
                   ),
                 ),
               ),
-              const SizedBox(height:16),
+              const SizedBox(height: 16),
               buildLabel("كلمة المرور"),
               Defaulttextformfield(
                 controller: passwordController,
                 hintText: "••••••••",
-                suffixIcon: const Icon(Icons.remove_red_eye_outlined,color:Colors.grey),
-                obscureText: true,
+                obscureText: obscurePassword,
+                onChanged: _validatePassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscurePassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      obscurePassword = !obscurePassword;
+                    });
+                  },
+                ),
+                borderColor: (isSubmitted &&
+                    (!isPasswordValid || passwordController.text.isEmpty))
+                    ? Colors.redAccent
+                    : null,
               ),
-              const SizedBox(height:16),
+              const SizedBox(height: 16),
               buildLabel("تأكيد كلمة المرور"),
               Defaulttextformfield(
                 controller: confirmPasswordController,
                 hintText: "أعد كتابة كلمة المرور",
-                suffixIcon: const Icon(Icons.remove_red_eye_outlined,color:Colors.grey),
-                obscureText: true,
+                obscureText: obscureConfirmPassword,
+                onChanged: (val) {
+                  _validatePassword(passwordController.text);
+                  setState(() {
+                    isPasswordMatched = val == passwordController.text;
+                  });
+                },
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscureConfirmPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      obscureConfirmPassword = !obscureConfirmPassword;
+                    });
+                  },
+                ),
+                borderColor: (isSubmitted && !isPasswordMatched)
+                    ? Colors.redAccent
+                    : null,
               ),
               const SizedBox(height: 14),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text("كلمة السر متطابقة"),
-                  Text("كلمة السر 8 حروف"),
-                  Text("كلمة السر تحتوي على ارقام"),
-                  Text("كلمة السر تحتوي على رموز مثل@/"),
+                children: [
+                  _buildCheck("كلمة السر تحتوي على 8 أحرف", hasMinLength),
+                  _buildCheck("تحتوي على حرف كبير وصغير", hasUpperLower),
+                  _buildCheck("تحتوي على رقم", hasNumber),
+                  _buildCheck("تحتوي على رمز مثل @ أو /", hasSymbol),
+                  _buildCheck("كلمة السر متطابقة", isPasswordMatched),
                 ],
               ),
               const SizedBox(height: 24),
               DefaultButton(
                 buttonText: "إنشاء حساب",
                 onPressed: () {
-                 print("Full Phone Number on Register: $fullPhoneNumber");
+                  setState(() {
+                    isSubmitted = true;
+                  });
+
+                  if (firstNameController.text.isEmpty ||
+                      lastNameController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      fullPhoneNumber.isEmpty ||
+                      birthDateController.text.isEmpty ||
+                      passwordController.text.isEmpty ||
+                      confirmPasswordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                        Text("من فضلك املأ كل الحقول المطلوبة"),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                    return;
+                  }
+
+                  if (!isPasswordMatched || !isPasswordValid) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                        Text("تأكد من صحة كلمة المرور ومطابقتها"),
+                        backgroundColor: Colors.redAccent,
+                      ),
+                    );
+                    return;
+                  }
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("تم إنشاء الحساب بنجاح!"),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 },
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCheck(String text, bool condition) {
+    return Row(
+      children: [
+        Icon(
+          condition ? Icons.check_circle : Icons.cancel,
+          color: condition ? Colors.green : Colors.redAccent,
+          size: 18,
+        ),
+        const SizedBox(width: 6),
+        Text(
+          text,
+          style: TextStyle(
+            color: condition ? Colors.green : Colors.redAccent,
+            fontSize: 13,
+          ),
+        ),
+      ],
     );
   }
 }

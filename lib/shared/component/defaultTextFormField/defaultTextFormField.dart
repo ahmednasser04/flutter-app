@@ -1,58 +1,55 @@
 import 'package:flutter/material.dart';
 
 class Defaulttextformfield extends StatelessWidget {
-   Defaulttextformfield({this.obscureText, this.controller,this.hintStyle,this.hintText
-   ,this.onFieldSubmitted,this.prefixIcon,this.prefixIconColor
-   ,this.suffixIcon,this.suffixIconColor,super.key});
-Widget? prefixIcon;
-Color? prefixIconColor;
-Widget? suffixIcon;
-Color? suffixIconColor;
-String? hintText;
-TextStyle? hintStyle;
-TextEditingController? controller;
-bool?   obscureText;
-Function(String)? onFieldSubmitted;
+  final TextEditingController? controller;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final Color? suffixIconColor;
+  final Function(String)? onChanged;
+  final Color? borderColor;
+
+
+  const Defaulttextformfield({
+    super.key,
+    this.controller,
+    this.hintText,
+    this.hintStyle,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.suffixIconColor,
+    this.onChanged,
+    this.borderColor,
+  });
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onFieldSubmitted: onFieldSubmitted,
       controller: controller,
-      obscureText: obscureText??false,
-      
+      obscureText: obscureText,
+      onChanged: onChanged,
       decoration: InputDecoration(
-        
-        prefixIcon: prefixIcon,
-        prefixIconColor: prefixIconColor,
-        suffixIcon: suffixIcon,
-        suffixIconColor: suffixIconColor,
         hintText: hintText,
         hintStyle: hintStyle,
-        
-        
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            
-            color:Colors.blueAccent ,
-            width: 1,),
-          borderRadius: BorderRadius.circular(10)
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            
-            color:Colors.red ,
-            width: 1,),
-          borderRadius: BorderRadius.circular(10)
-        ),
+        suffixIcon: suffixIcon != null
+            ? IconTheme(
+          data: IconThemeData(color: suffixIconColor ?? Colors.grey),
+          child: suffixIcon!,
+        )
+            : null,
+        contentPadding:
+        const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            
-            color:Color.fromRGBO(237, 241, 243, 1) ,
-            width: 2,),
-          borderRadius: BorderRadius.circular(10)
+          borderRadius: BorderRadius.circular(8),
+          borderSide:
+          BorderSide(color: borderColor ?? Colors.grey.shade400, width: 1),
         ),
-        
-        
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide:
+          BorderSide(color: borderColor ?? Colors.blueAccent, width: 1.3),
+        ),
       ),
     );
   }
