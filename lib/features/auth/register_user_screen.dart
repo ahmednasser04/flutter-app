@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:health_care_project/modules/loginscreen/loginscreen.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/app_colors.dart';
 import '../../shared/component/defaultTextFormField/defaultTextFormField.dart';
 import '../../shared/component/defaultbutton/defaultbutton.dart';
+
 
 class RegisterUserScreen extends StatefulWidget {
   static const String routeName = "RegisterUserScreen";
@@ -17,6 +19,7 @@ class RegisterUserScreen extends StatefulWidget {
 class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool isDoctor = false;
   bool isSubmitted = false;
+  bool isRegisterTabSelected = true;
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -28,7 +31,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-
   String fullPhoneNumber = '';
   bool isEmailValid = false;
   bool isPasswordValid = false;
@@ -37,6 +39,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool hasNumber = false;
   bool hasSymbol = false;
   bool hasMinLength = false;
+
+  void _navigateToLogin() {
+    Navigator.pushNamed(context, Loginscreen.routeName);
+  }
 
   Future<void> _pickDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
@@ -84,6 +90,177 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     });
   }
 
+  Widget _buildCheck(String text, bool condition) {
+    return Row(
+      children: [
+        Icon(
+          condition ? Icons.check_circle : Icons.cancel,
+          color: condition ? Colors.green : Colors.redAccent,
+          size: 18.sp,
+        ),
+        SizedBox(width: 6.w),
+        Text(
+          text,
+          style: TextStyle(
+            color: condition ? Colors.green : Colors.redAccent,
+            fontSize: 13.sp,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUserTypeSelector() {
+
+    const Color selectedColor = Color.fromRGBO(154, 185, 239, 0.55);
+    const Color unselectedColor = Color.fromRGBO(237, 241, 243, 1);
+    const double iconContainerHeight = 119;
+    const double iconContainerWidth = 99;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isDoctor = false;
+            });
+          },
+          child: Container(
+            height: 119.h,
+            width: 99.w,
+            decoration: BoxDecoration(
+              color: isDoctor
+                  ? unselectedColor
+                  : selectedColor,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: isDoctor ? unselectedColor : AppColors.primaryBlue,
+                width: 1,
+              ),
+            ),
+            child: Column(
+              children: [
+                Expanded(child: Image.asset('assets/images/user_logo.png')),
+                Text(
+                  "مستخدم عادي",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isDoctor = true;
+            });
+          },
+          child: Container(
+            height: 119.h,
+            width: 99.w,
+            decoration: BoxDecoration(
+              color: isDoctor ? selectedColor : unselectedColor,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: isDoctor ? AppColors.primaryBlue : unselectedColor,
+                width: 1,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Image.asset('assets/images/doctor_logo.png')),
+                SizedBox(height: 8.h),
+                Text(
+                  "أنا طبيب",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAuthTabBar() {
+    const Color selectedBackground = Color.fromRGBO(27, 106, 243, 1);
+    const Color unselectedBackground = Color.fromARGB(255, 220, 218, 218);
+
+    return Container(
+      height: 47.h,
+      decoration: BoxDecoration(
+        color: unselectedBackground,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isRegisterTabSelected = true;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: isRegisterTabSelected ? selectedBackground : unselectedBackground,
+                ),
+                child: Text(
+                  "إنشاء حساب",
+                  style: TextStyle(
+                    color: isRegisterTabSelected ? Colors.white : Colors.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                _navigateToLogin();
+                setState(() {
+                  isRegisterTabSelected = false;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: isRegisterTabSelected ? unselectedBackground : selectedBackground,
+                ),
+                child: Text(
+                  "تسجيل الدخول",
+                  style: TextStyle(
+                    color: isRegisterTabSelected ? Colors.black : Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,32 +272,55 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              SizedBox(height: 15.h),
+              _buildUserTypeSelector(),
+
               SizedBox(height: 25.h),
-              buildLabel("الاسم الاول"),
+
+              _buildAuthTabBar(),
+
+              SizedBox(height: 25.h),
+
+
               Row(
                 children: [
                   Expanded(
-                    child: Defaulttextformfield(
-                      controller: firstNameController,
-                      hintText: "الاسم الاول",
-                      borderColor: (isSubmitted && firstNameController.text.isEmpty)
-                          ? Colors.redAccent
-                          : null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildLabel("الاسم الاول"),
+                        Defaulttextformfield(
+                          controller: firstNameController,
+                          hintText: "الاسم الاول",
+                          borderColor: (isSubmitted && firstNameController.text.isEmpty)
+                              ? Colors.redAccent
+                              : null,
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
-                    child: Defaulttextformfield(
-                      controller: lastNameController,
-                      hintText: "الاسم الأخير",
-                      borderColor: (isSubmitted && lastNameController.text.isEmpty)
-                          ? Colors.redAccent
-                          : null,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildLabel("الاسم الأخير"),
+                        Defaulttextformfield(
+                          controller: lastNameController,
+                          hintText: "الاسم الأخير",
+                          borderColor: (isSubmitted && lastNameController.text.isEmpty)
+                              ? Colors.redAccent
+                              : null,
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
+
               SizedBox(height: 16.h),
+
               buildLabel("البريد الإلكتروني"),
               Defaulttextformfield(
                 controller: emailController,
@@ -133,7 +333,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 ),
                 borderColor: (isSubmitted && !isEmailValid) ? Colors.redAccent : null,
               ),
+
               SizedBox(height: 16.h),
+
               buildLabel("رقم الهاتف"),
               Container(
                 decoration: BoxDecoration(
@@ -160,14 +362,16 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   },
                 ),
               ),
+
               SizedBox(height: 16.h),
+
               buildLabel("تاريخ الميلاد"),
               GestureDetector(
                 onTap: () => _pickDate(context),
                 child: AbsorbPointer(
                   child: Defaulttextformfield(
                     controller: birthDateController,
-                    hintText: "اختر تاريخ ميلادك",
+                    hintText: "01-03-2004",
                     suffixIcon: Icon(Icons.calendar_today_rounded, color: Colors.grey, size: 20.sp),
                     borderColor: (isSubmitted && birthDateController.text.isEmpty)
                         ? Colors.redAccent
@@ -175,7 +379,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   ),
                 ),
               ),
+
               SizedBox(height: 16.h),
+
               buildLabel("كلمة المرور"),
               Defaulttextformfield(
                 controller: passwordController,
@@ -198,11 +404,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     ? Colors.redAccent
                     : null,
               ),
+
               SizedBox(height: 16.h),
+
               buildLabel("تأكيد كلمة المرور"),
               Defaulttextformfield(
                 controller: confirmPasswordController,
-                hintText: "أعد كتابة كلمة المرور",
+                hintText: "••••••••",
                 obscureText: obscureConfirmPassword,
                 onChanged: (val) {
                   _validatePassword(passwordController.text);
@@ -226,7 +434,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     ? Colors.redAccent
                     : null,
               ),
+
               SizedBox(height: 14.h),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -237,7 +447,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   _buildCheck("كلمة السر متطابقة", isPasswordMatched),
                 ],
               ),
+
               SizedBox(height: 24.h),
+
               DefaultButton(
                 buttonText: "إنشاء حساب",
                 onPressed: () {
@@ -277,32 +489,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                       backgroundColor: Colors.green,
                     ),
                   );
+                  print("Registering as Doctor: $isDoctor");
                 },
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildCheck(String text, bool condition) {
-    return Row(
-      children: [
-        Icon(
-          condition ? Icons.check_circle : Icons.cancel,
-          color: condition ? Colors.green : Colors.redAccent,
-          size: 18.sp,
-        ),
-        SizedBox(width: 6.w),
-        Text(
-          text,
-          style: TextStyle(
-            color: condition ? Colors.green : Colors.redAccent,
-            fontSize: 13.sp,
-          ),
-        ),
-      ],
     );
   }
 }

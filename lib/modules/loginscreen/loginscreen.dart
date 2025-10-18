@@ -1,11 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:health_care_project/main.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health_care_project/modules/forgetpasswordscreen/forgetpasswordscreen.dart';
 import 'package:health_care_project/shared/component/defaultTextButton/defaultTextButton.dart';
 import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
-
 import '../../features/auth/register_user_screen.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -33,8 +32,8 @@ class _LoginscreenState extends State<Loginscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        height: 1.sh,
+        width: 1.sw,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -50,11 +49,11 @@ class _LoginscreenState extends State<Loginscreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 250,
+                height: 250.h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: AlignmentGeometry.topLeft,
-                    end: AlignmentGeometry.centerLeft,
+                    begin: Alignment.topLeft,
+                    end: Alignment.centerLeft,
                     colors: [
                       Color.fromRGBO(255, 255, 255, .3),
                       Color.fromRGBO(255, 255, 255, .04),
@@ -64,17 +63,16 @@ class _LoginscreenState extends State<Loginscreen> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
                       child: Column(
-                        spacing: 8,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 15),
+                          SizedBox(height: 15.h),
                           Text(
                             "لوجو",
                             style: TextStyle(
-                              fontSize: 32,
+                              fontSize: 32.sp,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(10, 69, 87, 1),
                             ),
@@ -82,7 +80,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           Text(
                             "أبدأ الان",
                             style: TextStyle(
-                              fontSize: 32,
+                              fontSize: 32.sp,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(238, 238, 238, 1),
                             ),
@@ -90,8 +88,9 @@ class _LoginscreenState extends State<Loginscreen> {
                           Text(
                             'معا لتوفير جميع الخدمات الطبية بطريقة افضل',
                             style: TextStyle(
-                              color: Color.fromRGBO(255, 255, 255, 1),
+                              color: Colors.white,
                               fontWeight: FontWeight.w400,
+                              fontSize: 14.sp,
                             ),
                           ),
                         ],
@@ -101,22 +100,19 @@ class _LoginscreenState extends State<Loginscreen> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height - 250,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 1),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20.r),
+                    topRight: Radius.circular(20.r),
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.w),
                   child: Column(
-                    spacing: 6,
                     children: [
-                      SizedBox(height: 25),
+                      SizedBox(height: 25.h),
                       Row(
-                        spacing: 18,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
@@ -127,25 +123,26 @@ class _LoginscreenState extends State<Loginscreen> {
                               });
                             },
                             child: Container(
-                              height: 119,
-                              width: 99,
+                              height: 119.h,
+                              width: 99.w,
                               decoration: BoxDecoration(
                                 color: userIconsTap
                                     ? Color.fromRGBO(154, 185, 239, 0.55)
                                     : Color.fromRGBO(237, 241, 243, 1),
-                                border: BoxBorder.all(
+                                border: Border.all(
                                   color: Color.fromRGBO(237, 241, 243, 1),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                               ),
                               child: Column(
                                 children: [
-                                  Image.asset('assets/images/user_logo.png'),
+                                  Expanded(
+                                      child: Image.asset('assets/images/user_logo.png')),
                                   Text(
                                     "مستخدم عادي",
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -153,6 +150,7 @@ class _LoginscreenState extends State<Loginscreen> {
                               ),
                             ),
                           ),
+                          SizedBox(width: 15.w),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -161,25 +159,27 @@ class _LoginscreenState extends State<Loginscreen> {
                               });
                             },
                             child: Container(
-                              height: 119,
-                              width: 99,
+                              height: 119.h,
+                              width: 99.w,
                               decoration: BoxDecoration(
                                 color: doctorIconsTap
                                     ? Color.fromRGBO(154, 185, 239, 0.55)
                                     : Color.fromRGBO(237, 241, 243, 1),
-                                border: BoxBorder.all(
+                                border: Border.all(
                                   color: Color.fromRGBO(237, 241, 243, 1),
-                                  width: 1,
+                                  width: 1.w,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                               ),
                               child: Column(
                                 children: [
-                                  Image.asset('assets/images/doctor_logo.png'),
+                                  Expanded(
+                                      child: Image.asset('assets/images/doctor_logo.png')),
+                                  SizedBox(height: 8.h),
                                   Text(
                                     "أنا طبيب",
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -189,9 +189,9 @@ class _LoginscreenState extends State<Loginscreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 15.h),
                       Container(
-                        height: 47,
+                        height: 47.h,
                         child: Row(
                           children: [
                             Expanded(
@@ -207,43 +207,31 @@ class _LoginscreenState extends State<Loginscreen> {
                                   child: Text(
                                     "تسجيل الدخول",
                                     style: TextStyle(
-                                      color: isLogin
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 14,
+                                      color:
+                                      isLogin ? Colors.white : Colors.black,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: BoxBorder.all(
-                                      width: 1,
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    border: Border.all(
+                                      width: 1.w,
                                       color: Color.fromRGBO(255, 255, 255, .5),
                                     ),
                                     gradient: isLogin
                                         ? LinearGradient(
-                                            colors: [
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                            ],
-                                          )
+                                      colors: [
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                      ],
+                                    )
                                         : LinearGradient(
-                                            colors: [
-                                              const Color.fromARGB(
-                                                255,
-                                                220,
-                                                218,
-                                                218,
-                                              ),
-
-                                              const Color.fromARGB(
-                                                255,
-                                                220,
-                                                218,
-                                                218,
-                                              ),
-                                            ],
-                                          ),
+                                      colors: [
+                                        Color.fromARGB(255, 220, 218, 218),
+                                        Color.fromARGB(255, 220, 218, 218),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -251,7 +239,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                   _navigateToRegister();
+                                  _navigateToRegister();
                                   setState(() {
                                     isLogin = false;
                                     isRegiser = true;
@@ -262,43 +250,31 @@ class _LoginscreenState extends State<Loginscreen> {
                                   child: Text(
                                     "إنشاء حساب",
                                     style: TextStyle(
-                                      color: isRegiser
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 14,
+                                      color:
+                                      isRegiser ? Colors.white : Colors.black,
+                                      fontSize: 14.sp,
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: BoxBorder.all(
-                                      width: 1,
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    border: Border.all(
+                                      width: 1.w,
                                       color: Color.fromRGBO(255, 255, 255, .5),
                                     ),
                                     gradient: isRegiser
                                         ? LinearGradient(
-                                            colors: [
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                              Color.fromRGBO(27, 106, 243, 1),
-                                            ],
-                                          )
+                                      colors: [
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                        Color.fromRGBO(27, 106, 243, 1),
+                                      ],
+                                    )
                                         : LinearGradient(
-                                            colors: [
-                                              const Color.fromARGB(
-                                                255,
-                                                220,
-                                                218,
-                                                218,
-                                              ),
-
-                                              const Color.fromARGB(
-                                                255,
-                                                220,
-                                                218,
-                                                218,
-                                              ),
-                                            ],
-                                          ),
+                                      colors: [
+                                        Color.fromARGB(255, 220, 218, 218),
+                                        Color.fromARGB(255, 220, 218, 218),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -306,8 +282,7 @@ class _LoginscreenState extends State<Loginscreen> {
                           ],
                         ),
                       ),
-
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       ConditionalBuilder(
                         condition: isLogin,
                         builder: (context) => Column(
@@ -318,30 +293,30 @@ class _LoginscreenState extends State<Loginscreen> {
                                 Text(
                                   "البريد الإلكتورني",
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Color.fromRGBO(108, 114, 120, 1),
                                   ),
                                 ),
-                                SizedBox(height: 5),
+                                SizedBox(height: 5.h),
                                 Defaulttextformfield(
                                   hintText: 'ادخل بريدك الالكتروني',
                                   hintStyle: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Color.fromRGBO(108, 114, 120, 1),
                                   ),
                                 ),
-                                SizedBox(height: 15),
+                                SizedBox(height: 15.h),
                                 Text(
                                   "كلمة السر",
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Color.fromRGBO(108, 114, 120, 1),
                                   ),
                                 ),
-                                SizedBox(height: 15),
+                                SizedBox(height: 15.h),
                                 Defaulttextformfield(
                                   suffixIcon: IconButton(
                                     onPressed: () {
@@ -359,7 +334,7 @@ class _LoginscreenState extends State<Loginscreen> {
                                   obscureText: obsecure,
                                   hintText: "ادخل كلمة السر",
                                   hintStyle: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Color.fromRGBO(108, 114, 120, 1),
                                   ),
@@ -376,75 +351,65 @@ class _LoginscreenState extends State<Loginscreen> {
                                       builder: (context) {
                                         return Padding(
                                           padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(
-                                              context,
-                                            ).viewInsets.bottom,
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom,
                                           ),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20),
-                                                topRight: Radius.circular(20),
+                                                topLeft: Radius.circular(20.r),
+                                                topRight: Radius.circular(20.r),
                                               ),
                                               color: Colors.white,
                                             ),
-                                            height: 327,
-                                            padding: EdgeInsets.all(20),
+                                            height: 327.h,
+                                            padding: EdgeInsets.all(20.w),
                                             child: Center(
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    MainAxisAlignment.center,
                                                     children: [
                                                       Container(
-                                                        height: 5,
-                                                        width: 50,
+                                                        height: 5.h,
+                                                        width: 50.w,
                                                         decoration: BoxDecoration(
                                                           color: Color.fromRGBO(
-                                                            17,
-                                                            24,
-                                                            39,
-                                                            1,
-                                                          ),
+                                                              17, 24, 39, 1),
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                10,
-                                                              ),
+                                                          BorderRadius.circular(
+                                                              10.r),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 15),
+                                                  SizedBox(height: 15.h),
                                                   Text(
                                                     "اعادة تعيين كلمة السر",
                                                     style: TextStyle(
-                                                      fontSize: 21,
+                                                      fontSize: 21.sp,
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                      FontWeight.bold,
                                                       color: Colors.black,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 20),
+                                                  SizedBox(height: 20.h),
                                                   Text(
                                                     'البريد الالكتروني او رقم الهاتف',
                                                     style: TextStyle(
-                                                      fontSize: 14,
+                                                      fontSize: 14.sp,
                                                       fontWeight:
-                                                          FontWeight.w500,
+                                                      FontWeight.w500,
                                                       color: Color.fromRGBO(
-                                                        108,
-                                                        114,
-                                                        120,
-                                                        1,
-                                                      ),
+                                                          108, 114, 120, 1),
                                                     ),
                                                   ),
                                                   Defaulttextformfield(),
-                                                  SizedBox(height: 20),
+                                                  SizedBox(height: 20.h),
                                                   DefaultButton(
                                                     onPressed: () {
                                                       Navigator.push(
@@ -457,18 +422,18 @@ class _LoginscreenState extends State<Loginscreen> {
                                                       );
                                                     },
                                                     buttonText:
-                                                        'ارسال رابط تغيير كلمة السر',
+                                                    'ارسال رابط تغيير كلمة السر',
                                                   ),
-                                                  SizedBox(height: 20),
+                                                  SizedBox(height: 20.h),
                                                   DefaultButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                     buttonText: 'إلغاء',
                                                     backgroundColor:
-                                                        Colors.white,
+                                                    Colors.white,
                                                     foregroundColor:
-                                                        Colors.black,
+                                                    Colors.black,
                                                     boderColor: Colors.black,
                                                   ),
                                                 ],
@@ -482,7 +447,7 @@ class _LoginscreenState extends State<Loginscreen> {
                                   textButtonTitle: 'نسيت كلمة السر ؟',
                                 ),
                                 Spacer(),
-                                Text('تذكر البيانات'),
+                                Text('تذكر البيانات', style: TextStyle(fontSize: 12.sp)),
                                 Checkbox(
                                   checkColor: Colors.white,
                                   activeColor: Colors.blue,
@@ -501,7 +466,6 @@ class _LoginscreenState extends State<Loginscreen> {
                             ),
                           ],
                         ),
-
                         fallback: (context) => Defaulttextformfield(),
                       ),
                     ],
