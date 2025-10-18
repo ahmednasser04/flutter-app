@@ -37,6 +37,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_screenutil: ^5.9.3
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,7 @@ flutter:
     - assets/images/doctor.png
     - assets/images/button.png
     - assets/images/bg.png
+    - assets/images/splash.png
 
 
 
@@ -104,3 +106,11 @@ flutter:
         
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  color: "#4786F5"
+  image: assets/images/splash.png
+  android: true
+  ios: true
+  android_gravity: center
+  ios_content_mode: scaleAspectFill

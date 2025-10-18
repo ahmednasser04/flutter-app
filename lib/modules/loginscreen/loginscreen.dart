@@ -4,6 +4,8 @@ import 'package:health_care_project/shared/component/defaultTextButton/defaultTe
 import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
 
+import '../../features/auth/register_user_screen.dart';
+
 class Loginscreen extends StatefulWidget {
   static const String routeName = "Loginscreen";
   const Loginscreen({super.key});
@@ -13,12 +15,17 @@ class Loginscreen extends StatefulWidget {
 }
 
 class _LoginscreenState extends State<Loginscreen> {
+  static final String _registerRoute = RegisterUserScreen.routeName;
   bool userIconsTap = false;
   bool doctorIconsTap = false;
   bool isLogin = true;
   bool isRegiser = false;
   bool obsecure = true;
   bool checkboxValue = false;
+
+  void _navigateToRegister() {
+    Navigator.of(context).pushReplacementNamed(_registerRoute);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -241,6 +248,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
+                                  _navigateToRegister();
                                   setState(() {
                                     isLogin = false;
                                     isRegiser = true;

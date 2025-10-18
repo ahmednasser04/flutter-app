@@ -3,8 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health_care_project/features/onboarding/pages/onboarding_screen.dart';
 import 'package:health_care_project/modules/loginscreen/loginscreen.dart';
-
 import 'core/app_theme.dart';
+import 'features/auth/register_user_screen.dart';
 
 
 void main() {
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       routes: {
         OnboardingScreen.routeName:(context)=>OnboardingScreen(),
         Loginscreen.routeName:(context)=>Loginscreen(),
+        RegisterUserScreen.routeName:(context)=>RegisterUserScreen(),
       },
 
       );
