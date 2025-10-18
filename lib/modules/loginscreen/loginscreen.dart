@@ -5,6 +5,7 @@ import 'package:health_care_project/shared/component/defaultTextFormField/defaul
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
 
 class Loginscreen extends StatefulWidget {
+  static const String routeName = "Loginscreen";
   const Loginscreen({super.key});
 
   @override
