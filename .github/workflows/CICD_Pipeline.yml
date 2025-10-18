@@ -14,35 +14,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Install Flutter & Dart
-      - name: Setup Flutter & Dart
+      # Install prerequisites
+      - name: Install prerequisites
+        run: sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
+
+      # Install Flutter & Dart, build APK
+      - name: Setup Flutter & Dart and Build
         run: |
           # Install Dart
           wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
           echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
           sudo apt-get update
           sudo apt-get install -y dart
-          
+
           # Install Flutter
           FLUTTER_DIR="$HOME/flutter"
           mkdir -p $FLUTTER_DIR
-          wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz > /dev/null 2>&1
-          tar -xf flutter.tar.xz -C $FLUTTER_DIR --strip-components=1 > /dev/null 2>&1
-          
-          # Update PATH for current step
+          wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz
+          tar -xf flutter.tar.xz -C $FLUTTER_DIR --strip-components=1
+
+          # Update PATH
+          echo "$FLUTTER_DIR/bin" >> $GITHUB_PATH
           export PATH="$FLUTTER_DIR/bin:$PATH"
-          
+
           # Show versions
           flutter --version
           dart --version
 
-      # Install dependencies
-      - name: Install dependencies
-        run: flutter pub get
+          # Install dependencies
+          flutter pub get
 
-      # Analyze code
-      - name: Analyze code
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+          # Analyze code
+          flutter analyze --no-fatal-infos --no-fatal-warnings
+
+          # Build release APK
+          flutter build apk --release
 
       # Determine next version
       - name: Get next version
@@ -50,28 +56,24 @@ jobs:
         run: |
           # Get latest tag
           LATEST=$(git tag --sort=-v:refname | head -n 1)
-          
+
           if [[ -z "$LATEST" ]]; then
             NEXT="1.0"
           else
             MAJOR=$(echo $LATEST | cut -d. -f1)
             MINOR=$(echo $LATEST | cut -d. -f2)
-            
+
             if [[ "$MINOR" -ge 9 ]]; then
               MAJOR=$((MAJOR + 1))
               MINOR=0
             else
               MINOR=$((MINOR + 1))
             fi
-            
+
             NEXT="$MAJOR.$MINOR"
           fi
-          
-          echo "next=$NEXT" >> $GITHUB_OUTPUT
 
-      # Build release APK
-      - name: Build release APK
-        run: flutter build apk --release
+          echo "next=$NEXT" >> $GITHUB_OUTPUT
 
       # Create GitHub Release
       - name: Create GitHub Release
@@ -83,7 +85,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload APK to release
+      # Upload APK
       - name: Upload APK
         uses: softprops/action-gh-release@v2
         with:
