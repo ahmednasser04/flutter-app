@@ -27,7 +27,7 @@ class OnboardingBlueContent extends StatelessWidget {
       builder: (context, constraints) {
         return Container(
           width: double.infinity,
-          height: constraints.maxHeight * 0.55,
+          height: constraints.maxHeight * 0.50,
           decoration: BoxDecoration(
             gradient: AppColors.primaryGradient,
             borderRadius: BorderRadius.only(
@@ -36,92 +36,99 @@ class OnboardingBlueContent extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: 253.w,
-                    child: Text(
-                      data['title'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
-                        fontFamily: 'SF Arabic',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    width: 296.w,
-                    child: Text(
-                      data['description'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.white.withOpacity(0.8),
-                        fontFamily: 'SF Arabic',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 28.h),
-                  OnboardingIndicator(
-                    totalItems: totalItems,
-                    currentPage: currentPage,
-                  ),
-                  SizedBox(height: 40.h),
-                  SizedBox(
-                    height: 120.h,
-                    width: double.infinity,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/button.png",
-                          fit: BoxFit.contain,
-                          width: 180.w,
-                          height: 100.h,
-                        ),
-                        TextButton(
-                          onPressed: onNext,
-                          child: Text(
-                            "التالي",
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontFamily: 'SF Arabic',
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+            padding: EdgeInsets.symmetric(horizontal: 32.w),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    
+                    children: [
+                      Spacer(),
+                    
+                      
+                      SizedBox(
+                        width: 253.w,
+                        child: Text(
+                          data['title'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.white,
+                            fontFamily: 'SF Arabic',
                           ),
                         ),
-                        if (!isLastPage)
+                      ),
+                      SizedBox(height: 20.h),
+                      SizedBox(
+                        width: 296.w,
+                        child: Text(
+                          data['description'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.white.withOpacity(0.8),
+                            fontFamily: 'SF Arabic',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 28.h),
+                      OnboardingIndicator(
+                        totalItems: totalItems,
+                        currentPage: currentPage,
+                      ),
+                      SizedBox(height: 60.h),
+                      
+                      
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/button.png",
+                            fit: BoxFit.contain,
+                            width: 180.w,
+                            height: 100.h,
+                          ),
                           Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Padding(
-                              padding: EdgeInsets.only(right:0.w, bottom: 20.h),
-                              child: TextButton(
-                                onPressed: onSkip,
-                                child: Text(
-                                  "تخطي",
-                                  style: TextStyle(
-                                    color: AppColors.white.withOpacity(0.8),
-                                    fontSize: 16.sp,
-                                    fontFamily: 'SF Arabic',
-                                  ),
+                            bottom: 10.h,
+                            child: TextButton(
+                              onPressed: onNext,
+                              child: Text(
+                                "التالي",
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontFamily: 'SF Arabic',
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                      ],
-                    ),
+                          if (!isLastPage)
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 25.0.h),
+                                child: TextButton(
+                                  onPressed: onSkip,
+                                  child: Text(
+                                    "تخطي",
+                                    style: TextStyle(
+                                      color: AppColors.white.withOpacity(0.8),
+                                      fontSize: 16.sp,
+                                      fontFamily: 'SF Arabic',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
