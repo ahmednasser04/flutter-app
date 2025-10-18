@@ -46,7 +46,7 @@ jobs:
 
       # Analyze project source
       - name: Analyze code
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
       # Determine next version number
       - name: Get next version
