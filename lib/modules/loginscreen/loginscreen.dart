@@ -251,7 +251,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  // _navigateToRegister();
+                                   _navigateToRegister();
                                   setState(() {
                                     isLogin = false;
                                     isRegiser = true;

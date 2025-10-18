@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/app_colors.dart';
 import '../../shared/component/defaultTextFormField/defaultTextFormField.dart';
 import '../../shared/component/defaultbutton/defaultbutton.dart';
@@ -23,8 +24,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-  TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
@@ -54,13 +54,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
   Widget buildLabel(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6, top: 8),
+      padding: EdgeInsets.only(bottom: 6.h, top: 8.h),
       child: Text(
         text,
-        style: const TextStyle(
-          fontSize: 13,
+        style: TextStyle(
+          fontSize: 13.sp,
           fontWeight: FontWeight.w600,
-          color: Color.fromRGBO(90, 97, 104, 1),
+          color: const Color.fromRGBO(90, 97, 104, 1),
         ),
       ),
     );
@@ -79,10 +79,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       hasNumber = value.contains(RegExp(r'[0-9]'));
       hasSymbol = value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>/]'));
       hasMinLength = value.length >= 8;
-      isPasswordValid =
-          hasUpperLower && hasNumber && hasSymbol && hasMinLength;
-      isPasswordMatched =
-          passwordController.text == confirmPasswordController.text;
+      isPasswordValid = hasUpperLower && hasNumber && hasSymbol && hasMinLength;
+      isPasswordMatched = passwordController.text == confirmPasswordController.text;
     });
   }
 
@@ -93,11 +91,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 25),
+              SizedBox(height: 25.h),
               buildLabel("الاسم الاول"),
               Row(
                 children: [
@@ -110,7 +108,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           : null,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Expanded(
                     child: Defaulttextformfield(
                       controller: lastNameController,
@@ -122,7 +120,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               buildLabel("البريد الإلكتروني"),
               Defaulttextformfield(
                 controller: emailController,
@@ -131,12 +129,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 suffixIcon: Icon(
                   isEmailValid ? Icons.check_circle : Icons.cancel,
                   color: isEmailValid ? AppColors.green : Colors.redAccent,
+                  size: 22.sp,
                 ),
-                borderColor: (isSubmitted && !isEmailValid)
-                    ? Colors.redAccent
-                    : null,
+                borderColor: (isSubmitted && !isEmailValid) ? Colors.redAccent : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               buildLabel("رقم الهاتف"),
               Container(
                 decoration: BoxDecoration(
@@ -145,20 +142,17 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         ? Colors.redAccent
                         : Colors.grey.shade400,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: PhoneFormField(
-                  countrySelectorNavigator:
-                  const CountrySelectorNavigator.modalBottomSheet(),
+                  countrySelectorNavigator: const CountrySelectorNavigator.modalBottomSheet(),
                   decoration: InputDecoration(
                     hintText: '0123456789',
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 10),
+                    contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
                   ),
-                  countryButtonStyle:
-                  const CountryButtonStyle(showFlag: true),
+                  countryButtonStyle: const CountryButtonStyle(showFlag: true),
                   onChanged: (phoneNumber) {
                     if (phoneNumber != null) {
                       fullPhoneNumber = phoneNumber.international;
@@ -166,7 +160,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               buildLabel("تاريخ الميلاد"),
               GestureDetector(
                 onTap: () => _pickDate(context),
@@ -174,16 +168,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   child: Defaulttextformfield(
                     controller: birthDateController,
                     hintText: "اختر تاريخ ميلادك",
-                    suffixIcon: const Icon(Icons.calendar_today_rounded,
-                        color: Colors.grey),
-                    borderColor: (isSubmitted &&
-                        birthDateController.text.isEmpty)
+                    suffixIcon: Icon(Icons.calendar_today_rounded, color: Colors.grey, size: 20.sp),
+                    borderColor: (isSubmitted && birthDateController.text.isEmpty)
                         ? Colors.redAccent
                         : null,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               buildLabel("كلمة المرور"),
               Defaulttextformfield(
                 controller: passwordController,
@@ -192,10 +184,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 onChanged: _validatePassword,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    obscurePassword
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    obscurePassword ? Icons.visibility_off : Icons.visibility,
                     color: Colors.grey,
+                    size: 22.sp,
                   ),
                   onPressed: () {
                     setState(() {
@@ -203,12 +194,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     });
                   },
                 ),
-                borderColor: (isSubmitted &&
-                    (!isPasswordValid || passwordController.text.isEmpty))
+                borderColor: (isSubmitted && (!isPasswordValid || passwordController.text.isEmpty))
                     ? Colors.redAccent
                     : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               buildLabel("تأكيد كلمة المرور"),
               Defaulttextformfield(
                 controller: confirmPasswordController,
@@ -222,10 +212,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 },
                 suffixIcon: IconButton(
                   icon: Icon(
-                    obscureConfirmPassword
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
                     color: Colors.grey,
+                    size: 22.sp,
                   ),
                   onPressed: () {
                     setState(() {
@@ -237,7 +226,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     ? Colors.redAccent
                     : null,
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -248,7 +237,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   _buildCheck("كلمة السر متطابقة", isPasswordMatched),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               DefaultButton(
                 buttonText: "إنشاء حساب",
                 onPressed: () {
@@ -265,8 +254,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                       confirmPasswordController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content:
-                        Text("من فضلك املأ كل الحقول المطلوبة"),
+                        content: Text("من فضلك املأ كل الحقول المطلوبة"),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -276,8 +264,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   if (!isPasswordMatched || !isPasswordValid) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content:
-                        Text("تأكد من صحة كلمة المرور ومطابقتها"),
+                        content: Text("تأكد من صحة كلمة المرور ومطابقتها"),
                         backgroundColor: Colors.redAccent,
                       ),
                     );
@@ -305,14 +292,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         Icon(
           condition ? Icons.check_circle : Icons.cancel,
           color: condition ? Colors.green : Colors.redAccent,
-          size: 18,
+          size: 18.sp,
         ),
-        const SizedBox(width: 6),
+        SizedBox(width: 6.w),
         Text(
           text,
           style: TextStyle(
             color: condition ? Colors.green : Colors.redAccent,
-            fontSize: 13,
+            fontSize: 13.sp,
           ),
         ),
       ],
