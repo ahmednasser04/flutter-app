@@ -13,30 +13,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Dart SDK 3.9+
+      - name: Install prerequisites
         run: |
-          sudo apt-get update
-          sudo apt-get install -y apt-transport-https curl
+          sudo apt-get update -y && sudo apt-get upgrade -y
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
+
+      - name: Install Dart 3.9 via apt-get
+        run: |
           wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
-          echo "deb [signed-by=/usr/share/keyrings/dart.gpg] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main" | sudo tee /etc/apt/sources.list.d/dart_stable.list
+          echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
           sudo apt-get update
           sudo apt-get install -y dart
-          export PATH="$PATH:/usr/lib/dart/bin"
 
-      - name: Setup Flutter SDK 3.16.0 beta
+      - name: Setup Flutter SDK 3.35.6 (stable)
         run: |
           FLUTTER_DIR="$HOME/flutter"
           mkdir -p $FLUTTER_DIR
-          curl -LO "https://storage.googleapis.com/flutter_infra_release/releases/beta/linux/flutter_linux_3.16.0-beta.tar.xz"
-          tar -xf flutter_linux_3.16.0-beta.tar.xz -C $FLUTTER_DIR
+          curl -L -o flutter_linux_3.35.6-stable.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz
+          tar -xf flutter_linux_3.35.6-stable.tar.xz -C $FLUTTER_DIR
           echo "$FLUTTER_DIR/flutter/bin" >> $GITHUB_PATH
           flutter --version
+          dart --version
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Analyze code
         run: flutter analyze
+
+      #- name: Run tests
+      #  run: flutter test
 
       - name: Get next version
         id: version
@@ -77,7 +83,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload APK
+      - name: Upload APK to release
         uses: softprops/action-gh-release@v2
         with:
           files: build/app/outputs/flutter-apk/app-release.apk
