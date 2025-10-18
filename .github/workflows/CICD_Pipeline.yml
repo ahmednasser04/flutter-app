@@ -13,37 +13,42 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install prerequisites
       - name: Install prerequisites
-        run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
+        run: sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
 
-      - name: Install Dart 3.9 via apt-get
+      # Install Dart 3.9.4
+      - name: Setup Dart SDK
         run: |
           wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
           echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
           sudo apt-get update
           sudo apt-get install -y dart
 
-      - name: Setup Flutter SDK 3.35.6 (stable)
+      # Install Flutter 3.35.6
+      - name: Setup Flutter SDK
         run: |
           FLUTTER_DIR="$HOME/flutter"
           mkdir -p $FLUTTER_DIR
-          curl -L -o flutter_linux_3.35.6-stable.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz
-          tar -xf flutter_linux_3.35.6-stable.tar.xz -C $FLUTTER_DIR
-          echo "$FLUTTER_DIR/flutter/bin" >> $GITHUB_PATH
+          wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz
+          tar -xf flutter.tar.xz -C $FLUTTER_DIR --strip-components=1
+          echo "$FLUTTER_DIR/bin" >> $GITHUB_PATH
+
+      # Check versions
+      - name: Flutter & Dart versions
+        run: |
           flutter --version
           dart --version
 
+      # Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
+      # Analyze project source
       - name: Analyze code
         run: flutter analyze
 
-      #- name: Run tests
-      #  run: flutter test
-
+      # Determine next version number
       - name: Get next version
         id: version
         run: |
@@ -62,16 +67,17 @@ jobs:
             NEXT="$MAJOR.$MINOR"
           fi
           echo "next=$NEXT" >> $GITHUB_OUTPUT
-          echo "Next version: $NEXT"
 
+      # Update pubspec.yaml version
       - name: Update pubspec.yaml version
         run: |
           sed -i "s/^version:.*/version: ${{ steps.version.outputs.next }}+1/" pubspec.yaml
-          echo "Updated pubspec.yaml to version ${{ steps.version.outputs.next }}"
 
+      # Build release APK
       - name: Build release APK
         run: flutter build apk --release
 
+      # Create GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -79,11 +85,11 @@ jobs:
           name: "Flutter Release ${{ steps.version.outputs.next }}"
           body: |
             Flutter release version ${{ steps.version.outputs.next }}
-            Tests, analysis, and build completed successfully.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload APK to release
+      # Upload APK to release
+      - name: Upload APK
         uses: softprops/action-gh-release@v2
         with:
           files: build/app/outputs/flutter-apk/app-release.apk
