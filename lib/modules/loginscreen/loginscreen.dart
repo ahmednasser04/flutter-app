@@ -1,5 +1,7 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:health_care_project/main.dart';
+import 'package:health_care_project/modules/forgetpasswordscreen/forgetpasswordscreen.dart';
 import 'package:health_care_project/shared/component/defaultTextButton/defaultTextButton.dart';
 import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
@@ -99,6 +101,7 @@ class _LoginscreenState extends State<Loginscreen> {
                 ),
               ),
               Container(
+                height: MediaQuery.of(context).size.height - 250,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.only(
@@ -248,7 +251,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  _navigateToRegister();
+                                  // _navigateToRegister();
                                   setState(() {
                                     isLogin = false;
                                     isRegiser = true;
@@ -303,160 +306,203 @@ class _LoginscreenState extends State<Loginscreen> {
                           ],
                         ),
                       ),
+
                       SizedBox(height: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "البريد الإلكتورني",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(108, 114, 120, 1),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Defaulttextformfield(
-                            hintText: 'ادخل بريدك الالكتروني',
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(108, 114, 120, 1),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            "كلمة السر",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(108, 114, 120, 1),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Defaulttextformfield(
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  obsecure = !obsecure;
-                                });
-                              },
-                              icon: Icon(
-                                obsecure
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                              ),
-                            ),
-                            suffixIconColor: Colors.grey,
-                            obscureText: obsecure,
-                            hintText: "ادخل كلمة السر",
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(108, 114, 120, 1),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          DefaultTextButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                 isScrollControlled: true,
-                                context: context,
-                                builder: (context) {
-                                  
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ConditionalBuilder(
+                        condition: isLogin,
+                        builder: (context) => Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "البريد الإلكتورني",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(108, 114, 120, 1),
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Defaulttextformfield(
+                                  hintText: 'ادخل بريدك الالكتروني',
+                                  hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(108, 114, 120, 1),
+                                  ),
+                                ),
+                                SizedBox(height: 15),
+                                Text(
+                                  "كلمة السر",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(108, 114, 120, 1),
+                                  ),
+                                ),
+                                SizedBox(height: 15),
+                                Defaulttextformfield(
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        obsecure = !obsecure;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      obsecure
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
                                     ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                        ),
-                                        color: Colors.white,
-                                      ),
-                                      height: 327,
-                                      padding: EdgeInsets.all(20),
-                                      child: Center(
-                                        child: Column(
-                                          
-                                          
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                  Container(
-                                                    height: 5,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromRGBO(17, 24, 39, 1),
-                                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  suffixIconColor: Colors.grey,
+                                  obscureText: obsecure,
+                                  hintText: "ادخل كلمة السر",
+                                  hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(108, 114, 120, 1),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                DefaultTextButton(
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(
+                                              context,
+                                            ).viewInsets.bottom,
+                                          ),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20),
+                                                topRight: Radius.circular(20),
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            height: 327,
+                                            padding: EdgeInsets.all(20),
+                                            child: Center(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: 5,
+                                                        width: 50,
+                                                        decoration: BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                            17,
+                                                            24,
+                                                            39,
+                                                            1,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 15),
+                                                  Text(
+                                                    "اعادة تعيين كلمة السر",
+                                                    style: TextStyle(
+                                                      fontSize: 21,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
-                                            
-                                                
-                                              
-                                            ],),
-                                            SizedBox(height: 15,),
-                                          Text("اعادة تعيين كلمة السر",
-                                              style: TextStyle(
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black
-                                              )),
-                                          SizedBox(height: 20),
-                                          Text( 'البريد الالكتروني او رقم الهاتف',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color.fromRGBO(108, 114, 120, 1)
-                                                
-                                              )),
-                                          Defaulttextformfield(
-                                          
+                                                  SizedBox(height: 20),
+                                                  Text(
+                                                    'البريد الالكتروني او رقم الهاتف',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color.fromRGBO(
+                                                        108,
+                                                        114,
+                                                        120,
+                                                        1,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Defaulttextformfield(),
+                                                  SizedBox(height: 20),
+                                                  DefaultButton(
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) {
+                                                            return ForgetPasswordScreen();
+                                                          },
+                                                        ),
+                                                      );
+                                                    },
+                                                    buttonText:
+                                                        'ارسال رابط تغيير كلمة السر',
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  DefaultButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    buttonText: 'إلغاء',
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    foregroundColor:
+                                                        Colors.black,
+                                                    boderColor: Colors.black,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          SizedBox(height: 20),
-                                          DefaultButton(
-                                            onPressed: () {},
-                                            buttonText: 'ارسال رابط تغيير كلمة السر',
-                                            
-                                          ),
-                                          SizedBox(height: 20),
-                                          DefaultButton(onPressed: (){}, buttonText: 'إلغاء',
-                                          backgroundColor: Colors.white,
-                                          foregroundColor: Colors.black,
-                                          boderColor: Colors.black)
-                                        ],),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            textButtonTitle: 'نسيت كلمة السر ؟',
-                          ),
-                          Spacer(),
-                          Text('تذكر البيانات'),
-                          Checkbox(
-                            checkColor: Colors.white,
-                            activeColor: Colors.blue,
-                            value: checkboxValue,
-                            onChanged: (value) {
-                              setState(() {
-                                checkboxValue = !checkboxValue;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      DefaultButton(
-                        onPressed: () {},
-                        buttonText: 'تسجيل الدخول',
+                                        );
+                                      },
+                                    );
+                                  },
+                                  textButtonTitle: 'نسيت كلمة السر ؟',
+                                ),
+                                Spacer(),
+                                Text('تذكر البيانات'),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: Colors.blue,
+                                  value: checkboxValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      checkboxValue = !checkboxValue;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            DefaultButton(
+                              onPressed: () {},
+                              buttonText: 'تسجيل الدخول',
+                            ),
+                          ],
+                        ),
+
+                        fallback: (context) => Defaulttextformfield(),
                       ),
                     ],
                   ),
