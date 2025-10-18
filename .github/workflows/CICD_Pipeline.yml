@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup Flutter SDK
+        uses: flutter-actions/setup-flutter@v4
         with:
           channel: stable
-          flutter-version: 'latest'
+          version: 3.0.2
 
       # Install dependencies
       - name: Install dependencies
