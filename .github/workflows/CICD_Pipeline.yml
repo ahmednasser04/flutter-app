@@ -10,20 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout
+      # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # Prerequisites
-      - name: Install prerequisites
-        run: sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
 
       # Install SDKs
       - name: Setup Flutter & Dart
         run: |
-          wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg > /dev/null 2>&1
-          echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list > /dev/null 2>&1
-          sudo apt-get install -y dart > /dev/null 2>&1
+          wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
+          echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
+          sudo apt-get update
+          sudo apt-get install -y dart
           FLUTTER_DIR="$HOME/flutter"
           mkdir -p $FLUTTER_DIR
           wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz > /dev/null 2>&1
@@ -32,33 +29,33 @@ jobs:
           flutter --version
           dart --version
 
-      # Dependencies
+      # Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Analyze
+      # Analyze code
       - name: Analyze code
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
-      # Build APK
+      # Build release APK
       - name: Build release APK
         run: flutter build apk --release
 
-      # Release
+      # Create GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.run_number }}
-          name: "Flutter Release ${{ github.run_number }}"
-          body: "Flutter release version ${{ github.run_number }}"
+          tag_name: ${{ github.sha }}
+          name: "Flutter Release ${{ github.sha }}"
+          body: "Flutter release for commit ${{ github.sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload APK
+      # Upload APK to release
       - name: Upload APK
         uses: softprops/action-gh-release@v2
         with:
           files: build/app/outputs/flutter-apk/app-release.apk
-          tag_name: ${{ github.run_number }}
+          tag_name: ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
