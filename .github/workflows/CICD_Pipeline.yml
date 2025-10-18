@@ -10,9 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install Dart 3.9+
+        run: |
+          wget https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_3.9.0-1_amd64.deb
+          sudo dpkg -i dart_3.9.0-1_amd64.deb
+          sudo apt-get update
+          sudo apt-get install -f
 
       - name: Setup Flutter SDK
         uses: flutter-actions/setup-flutter@v4
@@ -20,22 +26,15 @@ jobs:
           channel: stable
           version: 3.13.4
 
-      # Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Analyze & test
       - name: Analyze code
         run: flutter analyze
 
-      #- name: Run tests
-      #  run: flutter test
-
-      # Determine next version number
       - name: Get next version
         id: version
         run: |
-          # Get the latest tag (like 1.0, 1.1, etc.)
           LATEST=$(git tag --sort=-v:refname | head -n 1)
           if [[ -z "$LATEST" ]]; then
             NEXT="1.0"
@@ -53,17 +52,14 @@ jobs:
           echo "next=$NEXT" >> $GITHUB_OUTPUT
           echo "Next version: $NEXT"
 
-      # Update version in pubspec.yaml
       - name: Update pubspec.yaml version
         run: |
           sed -i "s/^version:.*/version: ${{ steps.version.outputs.next }}+1/" pubspec.yaml
           echo "Updated pubspec.yaml to version ${{ steps.version.outputs.next }}"
 
-      # Build release APK
       - name: Build release APK
         run: flutter build apk --release
 
-      # Create GitHub Release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -75,7 +71,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload APK to release
       - name: Upload APK
         uses: softprops/action-gh-release@v2
         with:
