@@ -16,11 +16,12 @@ class RegisterUserScreen extends StatefulWidget {
   State<RegisterUserScreen> createState() => _RegisterUserScreenState();
 }
 
+
 class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool isDoctor = false;
   bool isSubmitted = false;
   bool isRegisterTabSelected = true;
-
+  String selectedGender = '';
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -187,6 +188,108 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
               ],
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGenderSelector() {
+    const Color selectedColor = Color.fromRGBO(154, 185, 239, 0.55);
+    const Color unselectedColor = Color.fromRGBO(237, 241, 243, 1);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildLabel("النوع"),
+        SizedBox(height: 6.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedGender = 'male';
+                });
+              },
+              child: Container(
+                height: 60.h,
+                width: 120.w,
+                decoration: BoxDecoration(
+                  color: selectedGender == 'male' ? selectedColor : unselectedColor,
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(
+                    color: selectedGender == 'male'
+                        ? AppColors.primaryBlue
+                        : Colors.white,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.male,
+                      color: selectedGender == 'male'
+                          ? AppColors.primaryBlue
+                          : Colors.grey,
+                      size: 22.sp,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "ذكر",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedGender = 'female';
+                });
+              },
+              child: Container(
+                height: 60.h,
+                width: 120.w,
+                decoration: BoxDecoration(
+                  color: selectedGender == 'female' ? selectedColor : unselectedColor,
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(
+                    color: selectedGender == 'female'
+                        ? AppColors.primaryBlue
+                        : Colors.grey.shade300,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.female,
+                      color: selectedGender == 'female'
+                          ? AppColors.primaryBlue
+                          : Colors.grey,
+                      size: 22.sp,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "أنثى",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -379,6 +482,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 16.h),
+
+              _buildGenderSelector(),
 
               SizedBox(height: 16.h),
 

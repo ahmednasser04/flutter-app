@@ -355,88 +355,91 @@ class _LoginscreenState extends State<Loginscreen> {
                                                 .viewInsets
                                                 .bottom,
                                           ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight: Radius.circular(20.r),
+                                          child: FractionallySizedBox(
+                                              heightFactor: 0.4,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r),
+                                                  topRight: Radius.circular(20.r),
+                                                ),
+                                                color: Colors.white,
                                               ),
-                                              color: Colors.white,
-                                            ),
-                                            height: 327.h,
-                                            padding: EdgeInsets.all(20.w),
-                                            child: Center(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        height: 5.h,
-                                                        width: 50.w,
-                                                        decoration: BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              17, 24, 39, 1),
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.r),
+                                            //  height: 327.h,
+                                              padding: EdgeInsets.all(20.w),
+                                              child: Center(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          height: 5.h,
+                                                          width: 50.w,
+                                                          decoration: BoxDecoration(
+                                                            color: Color.fromRGBO(
+                                                                17, 24, 39, 1),
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                10.r),
+                                                          ),
                                                         ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 15.h),
+                                                    Text(
+                                                      "اعادة تعيين كلمة السر",
+                                                      style: TextStyle(
+                                                        fontSize: 21.sp,
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        color: Colors.black,
                                                       ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 15.h),
-                                                  Text(
-                                                    "اعادة تعيين كلمة السر",
-                                                    style: TextStyle(
-                                                      fontSize: 21.sp,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black,
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 20.h),
-                                                  Text(
-                                                    'البريد الالكتروني او رقم الهاتف',
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      color: Color.fromRGBO(
-                                                          108, 114, 120, 1),
+                                                    SizedBox(height: 20.h),
+                                                    Text(
+                                                      'البريد الالكتروني او رقم الهاتف',
+                                                      style: TextStyle(
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        color: Color.fromRGBO(
+                                                            108, 114, 120, 1),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Defaulttextformfield(),
-                                                  SizedBox(height: 20.h),
-                                                  DefaultButton(
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) {
-                                                            return ForgetPasswordScreen();
-                                                          },
-                                                        ),
-                                                      );
-                                                    },
-                                                    buttonText:
-                                                    'ارسال رابط تغيير كلمة السر',
-                                                  ),
-                                                  SizedBox(height: 20.h),
-                                                  DefaultButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    buttonText: 'إلغاء',
-                                                    backgroundColor:
-                                                    Colors.white,
-                                                    foregroundColor:
-                                                    Colors.black,
-                                                    boderColor: Colors.black,
-                                                  ),
-                                                ],
+                                                    Defaulttextformfield(),
+                                                    SizedBox(height: 20.h),
+                                                    DefaultButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) {
+                                                              return ForgetPasswordScreen();
+                                                            },
+                                                          ),
+                                                        );
+                                                      },
+                                                      buttonText:
+                                                      'ارسال رابط تغيير كلمة السر',
+                                                    ),
+                                                    SizedBox(height: 20.h),
+                                                    DefaultButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      buttonText: 'إلغاء',
+                                                      backgroundColor:
+                                                      Colors.white,
+                                                      foregroundColor:
+                                                      Colors.black,
+                                                      boderColor: Colors.black,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
