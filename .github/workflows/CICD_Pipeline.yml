@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
+      # Checkout code (with all tags)
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important: fetch all commit history and tags
 
       # Install prerequisites
       - name: Install prerequisites
         run: sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
 
-      # Install Flutter & Dart
+      # Setup Flutter & Dart
       - name: Setup Flutter & Dart
         run: |
           # Install Dart
@@ -33,11 +35,11 @@ jobs:
           wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz
           tar -xf flutter.tar.xz -C $FLUTTER_DIR --strip-components=1
 
-          # Add Flutter to PATH
+          # Update PATH
           echo "$FLUTTER_DIR/bin" >> $GITHUB_PATH
           export PATH="$FLUTTER_DIR/bin:$PATH"
 
-          # Show installed versions
+          # Verify installation
           flutter --version
           dart --version
 
@@ -53,10 +55,11 @@ jobs:
       - name: Build release APK
         run: flutter build apk --release
 
-      # Determine next version
+      # Determine next version number
       - name: Get next version
         id: version
         run: |
+          git fetch --tags
           LATEST=$(git tag --sort=-v:refname | head -n 1)
 
           if [[ -z "$LATEST" ]]; then
@@ -75,6 +78,7 @@ jobs:
             NEXT="$MAJOR.$MINOR"
           fi
 
+          echo "Next version: $NEXT"
           echo "next=$NEXT" >> $GITHUB_OUTPUT
 
       # Create GitHub Release
