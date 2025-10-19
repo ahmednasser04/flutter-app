@@ -13,15 +13,13 @@ jobs:
       # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Important: fetch all tags
 
       # Install prerequisites
       - name: Install prerequisites
         run: sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
 
-      # Install Flutter & Dart, build APK
-      - name: Setup Flutter & Dart and Build
+      # Install Flutter & Dart
+      - name: Setup Flutter & Dart
         run: |
           # Install Dart
           wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
@@ -35,28 +33,30 @@ jobs:
           wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.35.6-stable.tar.xz -O flutter.tar.xz
           tar -xf flutter.tar.xz -C $FLUTTER_DIR --strip-components=1
 
-          # Update PATH
+          # Add Flutter to PATH
           echo "$FLUTTER_DIR/bin" >> $GITHUB_PATH
           export PATH="$FLUTTER_DIR/bin:$PATH"
 
-          # Show versions
+          # Show installed versions
           flutter --version
           dart --version
 
-          # Install dependencies
-          flutter pub get
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
 
-          # Analyze code
-          flutter analyze --no-fatal-infos --no-fatal-warnings
+      # Analyze code
+      - name: Analyze code
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
-          # Build release APK
-          flutter build apk --release
+      # Build release APK
+      - name: Build release APK
+        run: flutter build apk --release
 
       # Determine next version
       - name: Get next version
         id: version
         run: |
-          git fetch --tags
           LATEST=$(git tag --sort=-v:refname | head -n 1)
 
           if [[ -z "$LATEST" ]]; then
@@ -75,7 +75,6 @@ jobs:
             NEXT="$MAJOR.$MINOR"
           fi
 
-          echo "Next version: $NEXT"
           echo "next=$NEXT" >> $GITHUB_OUTPUT
 
       # Create GitHub Release
@@ -88,7 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload APK
+      # Upload APK to Release
       - name: Upload APK
         uses: softprops/action-gh-release@v2
         with:
