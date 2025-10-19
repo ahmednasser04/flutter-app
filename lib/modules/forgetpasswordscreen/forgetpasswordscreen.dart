@@ -1,135 +1,150 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health_care_project/shared/component/defaultTextButton/defaultTextButton.dart';
-import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   ForgetPasswordScreen({super.key});
+
+  String fullPhoneNumber = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        
         backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,),
+        surfaceTintColor: Colors.white,
+      ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Container(
-        
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-            
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 12.h),
+            Text(
+              'الرمز المتغير',
+              style: TextStyle(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromRGBO(43, 40, 41, 1),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Text(
+              "نحن نتأكد من ملكية رقم الهاتف لحماية حسابك وبياناتك الخاصة",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+                color: const Color.fromRGBO(43, 40, 41, 1),
+              ),
+            ),
+            SizedBox(height: 30.h),
+            Text(
+              "رقم الهاتف",
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+                color: const Color.fromRGBO(108, 114, 120, 1),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey.shade400,
+                ),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: PhoneFormField(
+                initialValue: null,
+                countrySelectorNavigator: const CountrySelectorNavigator.modalBottomSheet(),
+                decoration: InputDecoration(
+                  hintText: '0123456789',
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
+                ),
+                countryButtonStyle: const CountryButtonStyle(showFlag: true),
+                onChanged: (phoneNumber) {
+                  if (phoneNumber != null) {
+                    fullPhoneNumber = phoneNumber.international;
+                  }
+                },
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Text(
+              'قم بإدخال الرمز المتغير',
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                color: const Color.fromRGBO(64, 64, 64, 1),
+              ),
+            ),
+            SizedBox(height: 10.h),
+
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: PinCodeTextField(
+                length: 5,
+                appContext: context,
+                keyboardType: TextInputType.number,
+                onChanged: (value) {},
+                enableActiveFill: true,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(5.r),
+                  fieldHeight: 50.h,
+                  fieldWidth: 50.w,
+                  activeFillColor: const Color.fromRGBO(12, 61, 173, 0.02),
+                  inactiveFillColor: const Color.fromRGBO(12, 61, 173, 0.02),
+                  selectedFillColor: const Color.fromRGBO(12, 61, 173, 0.02),
+                  activeColor: Colors.blue,
+                  inactiveColor: const Color.fromRGBO(207, 219, 236, 1),
+                  selectedColor: Colors.blue,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'الرمز المتغير',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(43, 40, 41, 1),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "نحن نتأكد من ملكية رقم الهاتف لحماية حسابك وبياناتك الخاصة",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(43, 40, 41, 1),
-                  ),
-                ),
-                SizedBox(height: 30),
-                Text(
-                  "رقم الهاتف",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(108, 114, 120, 1),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Defaulttextformfield(),
-                SizedBox(height: 20),
-                Text(
-                  'قم بإدخال الرمز المتغير',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(64, 64, 64, 1),
-                  ),
-                ),
-                SizedBox(height: 10),
-            
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: PinCodeTextField(
-                    
-                    length: 5,
-                    appContext: context,
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {},
-                    enableActiveFill: true, 
-                    
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 50,
-                      activeFillColor: Color.fromRGBO(12, 61, 173, 0.02), 
-                      inactiveFillColor:  Color.fromRGBO(12, 61, 173, 0.02), 
-                      selectedFillColor: Color.fromRGBO(12, 61, 173, 0.02),  
-                      activeColor: Colors.blue, 
-                      inactiveColor: Color.fromRGBO(207, 219, 236, 1) ,
-                      selectedColor: Colors.blue, 
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Column(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  
                   children: [
-                    Row(
-        
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                      Text(
-                        "لم تستلم الرمز؟",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(48, 54, 81, 1)
-                        ),
-                      ),
-                    
-                      DefaultTextButton(textButtonTitle:'إعادة إرسال', onPressed: (){},
-                      textButtonColor: Color.fromRGBO(27, 106, 243, 1), )
-                      ,
-                    ]
-                    
-                    
-                    ,),
-                      Text(  'إعادة إرسال خلال 30ث',
+                    Text(
+                      "لم تستلم الرمز؟",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(48, 54, 81, 1)
+                        color: const Color.fromRGBO(48, 54, 81, 1),
                       ),
-                      ),
+                    ),
+                    DefaultTextButton(
+                      textButtonTitle: 'إعادة إرسال',
+                      onPressed: () {},
+                      textButtonColor: const Color.fromRGBO(27, 106, 243, 1),
+                    ),
                   ],
                 ),
-              
-                SizedBox(height: 30),
-                DefaultButton(onPressed: (){
-        
-                }, buttonText:'تأكيد واستمرار')
-        
+                Text(
+                  'إعادة إرسال خلال 30ث',
+                  style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color.fromRGBO(48, 54, 81, 1),
+                  ),
+                ),
               ],
             ),
-          ),
+            SizedBox(height: 30.h),
+            DefaultButton(
+              onPressed: () {},
+              buttonText: 'تأكيد واستمرار',
+            ),
+          ],
         ),
       ),
     );
