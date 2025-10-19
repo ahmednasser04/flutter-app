@@ -13,6 +13,8 @@ jobs:
       # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important: fetch all tags
 
       # Install prerequisites
       - name: Install prerequisites
@@ -54,7 +56,7 @@ jobs:
       - name: Get next version
         id: version
         run: |
-          # Get latest tag
+          git fetch --tags
           LATEST=$(git tag --sort=-v:refname | head -n 1)
 
           if [[ -z "$LATEST" ]]; then
@@ -73,6 +75,7 @@ jobs:
             NEXT="$MAJOR.$MINOR"
           fi
 
+          echo "Next version: $NEXT"
           echo "next=$NEXT" >> $GITHUB_OUTPUT
 
       # Create GitHub Release
