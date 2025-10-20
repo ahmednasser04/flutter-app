@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:health_care_project/shared/component/defaultTextButton/defaultTextButton.dart';
+import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:phone_form_field/phone_form_field.dart';
@@ -33,7 +34,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             Text(
-              "نحن نتأكد من ملكية رقم الهاتف لحماية حسابك وبياناتك الخاصة",
+              "نحن نتأكد من ملكية البريد الالكتروني لحماية حسابك وبياناتك الخاصة",
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
@@ -42,7 +43,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             ),
             SizedBox(height: 30.h),
             Text(
-              "رقم الهاتف",
+              "البريد الالكتروني",
               style: TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
@@ -50,30 +51,7 @@ class ForgetPasswordScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10.h),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey.shade400,
-                ),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: PhoneFormField(
-                initialValue: null,
-                countrySelectorNavigator: const CountrySelectorNavigator.modalBottomSheet(),
-                decoration: InputDecoration(
-                  hintText: '0123456789',
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
-                ),
-                countryButtonStyle: const CountryButtonStyle(showFlag: true),
-                onChanged: (phoneNumber) {
-                  if (phoneNumber != null) {
-                    fullPhoneNumber = phoneNumber.international;
-                  }
-                },
-              ),
-            ),
+            Defaulttextformfield(),
             SizedBox(height: 20.h),
             Text(
               'قم بإدخال الرمز المتغير',

@@ -8,7 +8,7 @@ import 'features/auth/register_user_screen.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(375, 812),
+        designSize: Size(412, 924),
     minTextAdapt: true,
     splitScreenMode: true,
     builder: (context, child) {

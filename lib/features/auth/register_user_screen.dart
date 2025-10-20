@@ -307,31 +307,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  isRegisterTabSelected = true;
-                });
-              },
-              child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.all(4.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r),
-                  color: isRegisterTabSelected ? selectedBackground : unselectedBackground,
-                ),
-                child: Text(
-                  "إنشاء حساب",
-                  style: TextStyle(
-                    color: isRegisterTabSelected ? Colors.white : Colors.black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          
           Expanded(
             child: GestureDetector(
               onTap: () {
@@ -351,6 +327,31 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                   "تسجيل الدخول",
                   style: TextStyle(
                     color: isRegisterTabSelected ? Colors.black : Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isRegisterTabSelected = true;
+                });
+              },
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6.r),
+                  color: isRegisterTabSelected ? selectedBackground : unselectedBackground,
+                ),
+                child: Text(
+                  "إنشاء حساب",
+                  style: TextStyle(
+                    color: isRegisterTabSelected ? Colors.white : Colors.black,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                   ),
