@@ -310,6 +310,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         color: unselectedBackground,
         borderRadius: BorderRadius.circular(8.r),
       ),
+
       child: Row(
         children: [
           Expanded(
@@ -325,7 +326,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1.w,
-
                     color: Color.fromRGBO(
                       255,
                       255,
@@ -376,7 +376,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -625,8 +624,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           );
                           return;
                         }
-
-                        // 2. التحقق من صحة ومطابقة كلمة المرور
                         if (!isPasswordMatched || !isPasswordValid) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -644,6 +641,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           role: isDoctor ? 'Doctor' : 'Patient',
                           gender: selectedGender,
                           dob: birthDateController.text,
+                          phone: fullPhoneNumber
                         );
                       },
                     ),

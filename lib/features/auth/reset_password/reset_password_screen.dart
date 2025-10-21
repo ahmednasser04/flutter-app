@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:health_care_project/shared/component/defaultTextFormField/defaultTextFormField.dart';
 import 'package:health_care_project/shared/component/defaultbutton/defaultbutton.dart';
 import '../cubit/auth_cubit.dart';
@@ -59,8 +58,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Navigator.pushNamedAndRemoveUntil(context, Loginscreen.routeName, (route) => false);
             } else if (state is ResetPasswordErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("فشل تعيين كلمة السر. الرمز غير صحيح أو خطأ تقني."),
+                SnackBar(
+                  content: Text("فشل تعيين كلمة السر: ${state.error}"),
                   backgroundColor: Colors.redAccent,
                 ),
               );

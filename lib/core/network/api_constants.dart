@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = "https://wekaya.onrender.com";
+  static const String baseUrl = "https://3s4rmd3r-3000.uks1.devtunnels.ms";
 
   static const String register = "$baseUrl/auth/sign-up";
   static const String login = "$baseUrl/auth/local-login";

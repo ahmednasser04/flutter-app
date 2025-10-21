@@ -35,8 +35,13 @@ class ResetPasswordErrorState extends AuthState {
   final String error;
   ResetPasswordErrorState(this.error);
 }
+
 class VerifyCodeLoadingState extends AuthState {}
-class VerifyCodeSuccessState extends AuthState {}
+
+class VerifyCodeSuccessState extends AuthState {
+  final Map<String, dynamic> verifyData;
+  VerifyCodeSuccessState(this.verifyData);
+}
 class VerifyCodeErrorState extends AuthState {
   final String error;
   VerifyCodeErrorState(this.error);

@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_care_project/core/network/api_constants.dart';
 import 'package:hive/hive.dart';
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import '../../../core/network/dio.dart';
 import 'auth_state.dart';
 
@@ -10,6 +12,39 @@ class AuthCubit extends Cubit<AuthState> {
 
   static AuthCubit get(context) => BlocProvider.of(context);
 
+  String _handleDioError(error) {
+    String errorMessage = "حدث خطأ غير متوقع.";
+    if (error is DioException && error.response != null) {
+      final responseData = error.response!.data;
+
+      if (responseData is Map) {
+        if (responseData.containsKey('message')) {
+          errorMessage = responseData['message'];
+        } else if (responseData.containsKey('error')) {
+          errorMessage = responseData['error'];
+        }
+      }
+      else if (responseData is String) {
+        try {
+          final decoded = json.decode(responseData);
+          if (decoded is Map && decoded.containsKey('message')) {
+            errorMessage = decoded['message'];
+          } else {
+            errorMessage = responseData;
+          }
+        } catch (e) {
+          errorMessage = responseData;
+        }
+      } else {
+        errorMessage = "خطأ من السيرفر: ${error.response!.statusCode}";
+      }
+
+    } else if (error.toString().contains('SocketException')) {
+      errorMessage = "خطأ في الاتصال بالشبكة.";
+    }
+    return errorMessage;
+  }
+
   void userRegister({
     required String name,
     required String email,
@@ -17,6 +52,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String role,
     required String gender,
     required String dob,
+    required String phone,
   }) {
     emit(RegisterLoadingState());
 
@@ -29,13 +65,14 @@ class AuthCubit extends Cubit<AuthState> {
         "role": role,
         "gender": gender.toUpperCase(),
         "dob": dob,
+        "phone": phone,
       },
     ).then((value) {
       print(value.data);
       emit(RegisterSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(RegisterErrorState(error.toString()));
+      emit(RegisterErrorState(_handleDioError(error)));
     });
   }
 
@@ -67,7 +104,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(LoginSuccessState(value.data));
     }).catchError((error) {
       print(error.toString());
-      emit(LoginErrorState(error.toString()));
+      emit(LoginErrorState(_handleDioError(error)));
     });
   }
 
@@ -93,7 +130,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(RequestResetSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(RequestResetErrorState(error.toString()));
+      emit(RequestResetErrorState(_handleDioError(error)));
     });
   }
 
@@ -106,16 +143,15 @@ class AuthCubit extends Cubit<AuthState> {
     DioHelper.postData(
       url: ApiConstants.resetPassword,
       data: {
-        "email": email,
-        "newPassword": newPassword,
-        "code": code,
+        "resetToken": code,
+        "password": newPassword,
       },
     ).then((value) {
       print(value.data);
       emit(ResetPasswordSuccessState());
     }).catchError((error) {
       print(error.toString());
-      emit(ResetPasswordErrorState(error.toString()));
+      emit(ResetPasswordErrorState(_handleDioError(error)));
     });
   }
 
@@ -133,10 +169,10 @@ class AuthCubit extends Cubit<AuthState> {
       },
     ).then((value) {
       print(value.data);
-      emit(VerifyCodeSuccessState());
+      emit(VerifyCodeSuccessState(value.data));
     }).catchError((error) {
       print(error.toString());
-      emit(VerifyCodeErrorState(error.toString()));
+      emit(VerifyCodeErrorState(_handleDioError(error)));
     });
   }
 }

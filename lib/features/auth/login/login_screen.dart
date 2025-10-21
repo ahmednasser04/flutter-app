@@ -465,8 +465,7 @@ class _LoginscreenState extends State<Loginscreen> {
                                                               'البريد الالكتروني',
                                                               style: TextStyle(
                                                                 fontSize: 14.sp,
-                                                                fontWeight:
-                                                                FontWeight.w500,
+                                                                fontWeight: FontWeight.w500,
                                                                 color: Color.fromRGBO(108, 114, 120, 1,),
                                                               ),
                                                             ),
@@ -492,7 +491,6 @@ class _LoginscreenState extends State<Loginscreen> {
                                                               child:  Text('ارسال رابط تغيير كلمة السر'),
                                                             ),
                                                              SizedBox(height: 20.h),
-
                                                             DefaultButton(
                                                               onPressed: () {
                                                                 Navigator.pop(context);
@@ -516,7 +514,6 @@ class _LoginscreenState extends State<Loginscreen> {
                                           },
                                           textButtonTitle: 'نسيت كلمة السر ؟',
                                         ),
-
                                         Spacer(),
                                         Text(
                                           'تذكر البيانات',
@@ -533,7 +530,6 @@ class _LoginscreenState extends State<Loginscreen> {
                                         ),
                                       ],
                                     ),
-
                                     SizedBox(height: 20.h),
                                     DefaultButton(
                                       onPressed: isLoading ? null : () {

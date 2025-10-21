@@ -10,7 +10,6 @@ import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
 
-
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = "ForgetPasswordScreen";
 
@@ -27,6 +26,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final TextEditingController pinCodeController = TextEditingController();
   String enteredPinCode = '';
   bool isSubmitted = false;
+
+  static const int pinCodeLength = 6;
 
   @override
   void dispose() {
@@ -48,23 +49,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           listener: (context, state) {
 
             if (state is VerifyCodeSuccessState) {
+
+              final String resetToken = state.verifyData['token'] ?? state.verifyData['resetToken'] ?? enteredPinCode;
+
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("تم التحقق بنجاح! يمكنك الآن تعيين كلمة سر جديدة."),
                   backgroundColor: Colors.green,
                 ),
               );
+
               Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (context) => ResetPasswordScreen(
                   email: widget.email,
-                  code: enteredPinCode,
+                  code: resetToken,
                 ),
               ));
 
             } else if (state is VerifyCodeErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("الرمز غير صحيح أو انتهت صلاحيته. حاول مرة أخرى."),
+                SnackBar(
+                  content: Text("فشل التحقق: ${state.error}"),
                   backgroundColor: Colors.redAccent,
                 ),
               );
@@ -79,8 +84,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               );
             } else if (state is RequestResetErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("فشل في إعادة الإرسال."),
+                SnackBar(
+                  content: Text("فشل في إعادة الإرسال: ${state.error}"),
                   backgroundColor: Colors.redAccent,
                 ),
               );
@@ -141,7 +146,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   Directionality(
                     textDirection: TextDirection.ltr,
                     child: PinCodeTextField(
-                      length: 5,
+                      length: pinCodeLength,
                       controller: pinCodeController,
                       appContext: context,
                       keyboardType: TextInputType.number,
@@ -210,10 +215,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       setState(() {
                         isSubmitted = true;
                       });
-                      if (enteredPinCode.length != 5) {
+                      if (enteredPinCode.length != pinCodeLength) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("من فضلك أدخل الرمز المكون من 5 أرقام."),
+                          SnackBar(
+                            content: Text("من فضلك أدخل الرمز المكون من $pinCodeLength أرقام."),
                             backgroundColor: Colors.redAccent,
                           ),
                         );
