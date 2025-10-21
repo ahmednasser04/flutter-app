@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_care_project/modules/loginscreen/loginscreen.dart';
+import '../../auth/login/login_screen.dart';
 import '../widgets/onboarding_content.dart';
 import '../widgets/onboarding_data.dart';
 
