@@ -9,7 +9,8 @@ class Defaulttextformfield extends StatelessWidget {
   final Color? suffixIconColor;
   final Function(String)? onChanged;
   final Color? borderColor;
-
+  final String? initialValue;
+  final bool readOnly;
 
   const Defaulttextformfield({
     super.key,
@@ -21,11 +22,15 @@ class Defaulttextformfield extends StatelessWidget {
     this.suffixIconColor,
     this.onChanged,
     this.borderColor,
+    this.initialValue,
+    this.readOnly = false
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
+      readOnly: readOnly,
       controller: controller,
       obscureText: obscureText,
       onChanged: onChanged,

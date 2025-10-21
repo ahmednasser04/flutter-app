@@ -33,8 +33,8 @@ class OnboardingContent extends StatelessWidget {
           left: 0,
           right: 0,
           child: Container(
-            alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.48,
+            alignment: Alignment.bottomCenter,
+            height: .53.sh,
             child: OnboardingImage(isAnimated: isAnimated),
           ),
         ),
