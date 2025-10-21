@@ -18,7 +18,9 @@ jobs:
 
       # Install prerequisites
       - name: Install prerequisites
-        run: sudo apt-get update && sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl git unzip xz-utils zip libglu1-mesa apt-transport-https
 
       # Setup Flutter & Dart
       - name: Setup Flutter & Dart
@@ -81,21 +83,13 @@ jobs:
           echo "Next version: $NEXT"
           echo "next=$NEXT" >> $GITHUB_OUTPUT
 
-      # Create GitHub Release
-      - name: Create GitHub Release
+      # Create GitHub Release + Upload APK (combined)
+      - name: Create GitHub Release and Upload APK
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.next }}
           name: "FlutterApp ${{ steps.version.outputs.next }}"
           body: "FlutterApp release ${{ steps.version.outputs.next }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Upload APK to Release
-      - name: Upload APK
-        uses: softprops/action-gh-release@v2
-        with:
           files: build/app/outputs/flutter-apk/app-release.apk
-          tag_name: ${{ steps.version.outputs.next }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
